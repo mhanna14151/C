@@ -19,10 +19,13 @@ I referenced the code from the following sources to create this program:
 
 */
 
+// Provides the seed for random to base it's work off of
 void randomseed() {
  	time_t t;   /* Built-in type for time in stdlib */
 	srand((unsigned) time(&t));
 }
+
+// Returns a roll
 int randomroll() {
 	int sides = 12;
 	int roll = (rand() % sides);
@@ -30,6 +33,12 @@ int randomroll() {
 }
 
 int waterwalk = 0; // If waterwalk == 1, you are able to walk on water
+
+// Checks if the location given is a accessible location. 
+// Returns 0 if False, 1 if True
+// walls[row][col] = 1, denotes a wall at that location.
+// walls[row][col] = 2, denotes a water tile at that location.
+// waterwalk = 1, states you have the ability to walk on water.
 int valid_place(int row, int col, int walls[GRID_SIZE][GRID_SIZE]) {
 	if (row < 0 || col < 0 || row >= GRID_SIZE || col >= GRID_SIZE) {
 		return 0;
@@ -47,6 +56,7 @@ int valid_place(int row, int col, int walls[GRID_SIZE][GRID_SIZE]) {
 		return 1;
 	}
 }
+
 int wall[MAZE_DIM][MAZE_DIM];
 char predecessor[MAZE_DIM][MAZE_DIM];
 struct location {
@@ -121,8 +131,7 @@ void print_map(int wall[MAZE_DIM][MAZE_DIM]) {
 }
 */
 
-/* Get a list of locations to explore adjacent to this one.
- * Easiest to represent this as its own queue. */
+// Get a list of locations to explore adjacent to this one
 struct queue *get_neighbors(int r, int c, int wall[MAZE_DIM][MAZE_DIM],
         char prev[MAZE_DIM][MAZE_DIM]) {
     struct queue *neighbors = new_queue();
